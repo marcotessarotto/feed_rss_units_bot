@@ -1,0 +1,16 @@
+
+sito università
+pagina eventi: https://www.units.it/eventi?page=1
+
+bot che "processa" questo feed rss https://www.units.it/feed/eventi
+o altri feed più attivi tipo:
+https://www.units.it/feed/notizie/ateneo
+
+il bot permette di interrogare la banca dati scaricata attraverso feed rss
+
+esempio:
+comando /eventi:
+il bot propone gli eventi degli ultimi n (=5) giorni
+
+il bot propone gli eventi attraverso una tastiera virtuale
+l'utente seleziona l'evento ed il bot mostra i dettagli dell'evento
