@@ -3,12 +3,13 @@ import os
 
 from telegram import Bot
 from telegram.ext import messagequeue as mq, Updater, ConversationHandler, CommandHandler, MessageHandler, Filters, \
-    CallbackQueryHandler, run_async
+    CallbackQueryHandler, run_async, CallbackContext
 
 from telegram.error import (TelegramError, Unauthorized, BadRequest,
                             TimedOut, ChatMigrated, NetworkError)
 from telegram.utils.request import Request
 
+from test_rss import read_feed
 
 
 def start_command_handler(update, context):
@@ -40,6 +41,14 @@ def help_command_handler(update, context):
         disable_web_page_preview=True,
         parse_mode='HTML',
     )
+
+
+def update_rss_feed(context: CallbackContext):
+    UNITS_EVENTI_RSS = 'https://www.units.it/feed/eventi'
+
+    read_feed(UNITS_EVENTI_RSS)
+
+    print("update_rss_feed ok")
 
 
 class MQBot(Bot):
@@ -121,6 +130,7 @@ def main():
     job_queue = updater.job_queue
     # *** boilerplate end
 
+    job_minute = job_queue.run_repeating(update_rss_feed, interval=60*30, first=0)
 
     dp.add_handler(CommandHandler('start', start_command_handler))
     dp.add_handler(CommandHandler('help', help_command_handler))
