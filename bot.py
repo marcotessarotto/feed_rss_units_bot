@@ -70,14 +70,35 @@ def show_event_command_handler(update, context):
     if rss_id == '':
         return
 
+    print("**** ciao")
     print(rss_id)
 
     v = dict_rss_items[rss_id]
 
-    update.message.reply_text(
-        f"rss_id={rss_id} summary={v['summary']}\n",
-        disable_web_page_preview=True,
+
+    # update.message.reply_text(
+    #     f"rss_id={rss_id} summary={v['summary']}\n",
+    #     disable_web_page_preview=True,
+    #     parse_mode='HTML',
+    # )
+    html_str = f"rss_id={rss_id} summary={v['summary']}\n"
+
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(html_str)
+
+    # dobbiamo rimuovere alcuni tag dal testo... per ora li rimuoviamo tutti
+    text = soup.get_text()
+
+    print(text)
+
+    user_id = update.effective_user.id
+
+    context.bot.send_message(
+        chat_id=user_id,
+        text=text,
+        # reply_markup=reply_markup,
         parse_mode='HTML',
+        # disable_web_page_preview=news_item.disable_web_page_preview
     )
 
 
