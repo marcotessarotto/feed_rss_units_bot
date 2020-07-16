@@ -54,7 +54,7 @@ def events_command_handler(update, context):
         print(f"k={k}  v={v}")
 
         update.message.reply_text(
-            f"rss_id={k} {v['title']}",
+            f"rss_id={k} {v['title']} /mostra_{k}",
             disable_web_page_preview=True,
             parse_mode='HTML',
         )
@@ -64,7 +64,21 @@ def events_command_handler(update, context):
             break
 
 
-    pass
+def show_event_command_handler(update, context):
+
+    rss_id = update.message.text.replace('/' + 'mostra_', '')
+    if rss_id == '':
+        return
+
+    print(rss_id)
+
+    v = dict_rss_items[rss_id]
+
+    update.message.reply_text(
+        f"rss_id={rss_id} summary={v['summary']}\n",
+        disable_web_page_preview=True,
+        parse_mode='HTML',
+    )
 
 
 def update_rss_feed(context: CallbackContext):
@@ -74,12 +88,12 @@ def update_rss_feed(context: CallbackContext):
 
     read_feed(UNITS_EVENTI_RSS)
 
-    dict_rss_items = dict(sorted(dict_rss_items.items()))
+    dict_rss_items = dict(reversed(sorted(dict_rss_items.items())))
 
-    print(dict_rss_items)
+    # print(dict_rss_items)
 
-    for k,v in dict_rss_items.items():
-        print(k)
+    # for k,v in dict_rss_items.items():
+    #     print(k)
 
     print("update_rss_feed ok")
 
@@ -169,6 +183,8 @@ def main():
     dp.add_handler(CommandHandler('help', help_command_handler))
 
     dp.add_handler(CommandHandler('eventi', events_command_handler))
+
+    dp.add_handler(MessageHandler(Filters.regex('^(/' + 'mostra_' + '[\\d]+)$'), show_event_command_handler))
 
     # dp.add_handler(MessageHandler(Filters.text, generic_message_handler))
 
