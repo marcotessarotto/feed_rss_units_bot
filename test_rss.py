@@ -65,7 +65,6 @@ def read_feed(url):
         print(published_parsed)
         print(dt)
 
-
         dict_rss_items[rss_id] = item
 
 

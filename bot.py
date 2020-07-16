@@ -9,7 +9,7 @@ from telegram.error import (TelegramError, Unauthorized, BadRequest,
                             TimedOut, ChatMigrated, NetworkError)
 from telegram.utils.request import Request
 
-from test_rss import read_feed
+from test_rss import read_feed, dict_rss_items
 
 
 def start_command_handler(update, context):
@@ -41,6 +41,30 @@ def help_command_handler(update, context):
         disable_web_page_preview=True,
         parse_mode='HTML',
     )
+
+
+def events_command_handler(update, context):
+
+    # il bot mostra gli ultimi n eventi
+
+    counter = 0
+
+    for k, v in dict_rss_items.items():
+
+        print(f"k={k}  v={v}")
+
+        update.message.reply_text(
+            f"rss_id={k} {v['title']}",
+            disable_web_page_preview=True,
+            parse_mode='HTML',
+        )
+
+        counter = counter + 1
+        if counter > 5:
+            break
+
+
+    pass
 
 
 def update_rss_feed(context: CallbackContext):
@@ -135,6 +159,7 @@ def main():
     dp.add_handler(CommandHandler('start', start_command_handler))
     dp.add_handler(CommandHandler('help', help_command_handler))
 
+    dp.add_handler(CommandHandler('eventi', events_command_handler))
 
     # dp.add_handler(MessageHandler(Filters.text, generic_message_handler))
 
