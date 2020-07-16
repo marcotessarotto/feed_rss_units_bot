@@ -68,9 +68,18 @@ def events_command_handler(update, context):
 
 
 def update_rss_feed(context: CallbackContext):
+    global dict_rss_items
+
     UNITS_EVENTI_RSS = 'https://www.units.it/feed/eventi'
 
     read_feed(UNITS_EVENTI_RSS)
+
+    dict_rss_items = dict(sorted(dict_rss_items.items()))
+
+    print(dict_rss_items)
+
+    for k,v in dict_rss_items.items():
+        print(k)
 
     print("update_rss_feed ok")
 

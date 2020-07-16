@@ -6,6 +6,7 @@ import feedparser
 import requests
 from bs4 import BeautifulSoup
 
+# l'accesso a dictionary è thread safe
 dict_rss_items = {}
 
 # def get_content_from_page(URL, attr_name='class', attr_value='foglia-box-content'):
@@ -72,6 +73,6 @@ UNITS_RSS = 'https://www.units.it/feed/notizie/ateneo'
 
 UNITS_EVENTI_RSS = 'https://www.units.it/feed/eventi'
 
-read_feed(UNITS_EVENTI_RSS)
-
-print(len(dict_rss_items))
+# read_feed(UNITS_EVENTI_RSS)
+#
+# print(len(dict_rss_items))
