@@ -1,4 +1,7 @@
+from datetime import datetime
 import urllib
+from time import mktime
+
 import feedparser
 import requests
 from bs4 import BeautifulSoup
@@ -51,15 +54,25 @@ def read_feed(url):
         link = item["link"]
         summary = item["summary"]
 
+        published = item['published']
+        published_parsed = item['published_parsed']
+
+        dt = datetime.fromtimestamp(mktime(published_parsed))
+
         # print(item)
-        print(f"rss_id={rss_id} link={link}")
+        print(f"rss_id={rss_id} link={link} ")
+        print(published)
+        print(published_parsed)
+        print(dt)
+
 
         dict_rss_items[rss_id] = item
 
 
 UNITS_RSS = 'https://www.units.it/feed/notizie/ateneo'
 
+UNITS_EVENTI_RSS = 'https://www.units.it/feed/eventi'
 
-read_feed(UNITS_RSS)
+read_feed(UNITS_EVENTI_RSS)
 
 print(len(dict_rss_items))

@@ -14,3 +14,4 @@ il bot propone gli eventi degli ultimi n (=5) giorni
 
 il bot propone gli eventi attraverso una tastiera virtuale
 l'utente seleziona l'evento ed il bot mostra i dettagli dell'evento
+
